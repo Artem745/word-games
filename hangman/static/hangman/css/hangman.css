@@ -1,0 +1,68 @@
+.hangman {
+    height: 80vh;
+}
+
+.select-category {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.text-center {
+    font-size: 42px;
+    margin-bottom: 30px;
+}
+
+.category-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.category-item {
+    flex: 1 1 calc(25% - 20px); /* Adjust percentage and gap to fit 4 columns */
+    max-width: calc(25% - 20px); /* Ensure the max width does not exceed the percentage */
+    text-align: center;
+    padding: 10px 0px;
+    cursor: pointer;
+    background-color: #f4ff58;
+    border: 2px solid #000000;
+    border-radius: 10px;
+    transition: background-color 0.4s ease;
+}
+
+.category-item:hover {
+    background-color: #ffe058;
+}
+
+.category-item img {
+    width: 30%;
+    margin-bottom: 10px;
+}
+
+.category-item p {
+    margin: 0;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 1200px) {
+    .category-item {
+        flex: 1 1 calc(33.333% - 20px); /* 3 columns on medium screens */
+        max-width: calc(33.333% - 20px);
+    }
+}
+
+@media (max-width: 992px) {
+    .category-item {
+        flex: 1 1 calc(50% - 20px); /* 2 columns on smaller screens */
+        max-width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .category-item {
+        flex: 1 1 100%; /* 1 column on mobile screens */
+        max-width: 100%;
+    }
+}

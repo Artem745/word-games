@@ -1,0 +1,65 @@
+/* Common Styles */
+.left, .right {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    text-align: center;
+    cursor: pointer;
+}
+
+.left:hover div, .right:hover div {
+    transform: scale(1.08); /* Changed 'scale' to 'transform: scale' */
+}
+
+.left div, .right div {
+    transition: transform 0.8s ease; /* Changed 'scale' to 'transform' */
+}
+.left div img, .right div img {
+    width: 100%;
+}
+.left {
+    color: #000;
+}
+
+.right {
+    background: green;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .left, .right {
+        width: 90%;
+        font-size: 20px; /* Adjust font size for smaller screens */
+        padding: 10px; /* Add padding for better touch targets */
+    }
+    .home-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .left, .right {
+        font-size: 16px; /* Further adjust font size for very small screens */
+        padding: 10px; /* Ensure padding is consistent */
+    }
+
+    .left:hover div, .right:hover div {
+        transform: scale(1.05); /* Reduce the scale effect for smaller screens */
+    }
+    
+    .left, .right {
+        flex-direction: row; /* Adjust the flex direction to row for smaller screens */
+    }
+}
+
