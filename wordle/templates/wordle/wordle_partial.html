@@ -1,0 +1,9 @@
+<div style="position: relative;">
+    <div class="hangman-man">
+    </div>
+    <div class="letters">
+        {% for letter in word %}
+            <input type="text" name="{{ letter }}" class="letters-input" autocomplete="off" maxlength="1">
+        {% endfor %}
+    </div>
+</div> 

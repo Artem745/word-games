@@ -1,0 +1,36 @@
+<p data-errors="{{errors}}" id="errors" style="display: none;"></p>
+{% if errors >= 1 %}
+    <div class="hangman-drawing">
+        <div class="base"></div>
+        <div class="vertical-pole"></div>
+        <div class="horizontal-pole"></div>
+        {% if errors >= 2 %}
+            <div class="corner-pole"></div>
+            {% if errors >= 3 %}
+                <div class="rope"></div>
+                {% if errors >= 4 %}
+                    <div class="head">
+                        {% if errors >= 8 %}
+                            <div class="left-eye1"></div>
+                            <div class="left-eye2"></div>
+                            <div class="right-eye1"></div>
+                            <div class="right-eye2"></div>
+                        {% endif %}
+                    </div>
+                    {% if errors >= 5 %}
+                    <div class="body"></div>
+                        {% if errors >= 6 %}
+                            <div class="arm"></div>
+                            {% if errors >= 7 %}
+                                <div class="left-leg"></div>
+                                {% if errors >= 8 %}
+                                    <div class="right-leg"></div>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+{% endif %}

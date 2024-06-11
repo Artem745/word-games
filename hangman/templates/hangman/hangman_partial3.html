@@ -1,0 +1,24 @@
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="exampleModalLongTitle">{% if status == "win" %}Congratulations, You win!{% else %}You lost :({% endif %}</h5>
+            </div>
+            <div class="modal-body">
+                Your score: 
+            </div>
+            <div class="modal-footer">
+                <a href="{% url "home" %}" type="button" class="btn btn-secondary">Menu</a>
+                <a href="{% url "hangman:index" %}" type="button" class="btn try-again-button hangman-hover">Try again</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#exampleModalCenter').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    });
+</script>

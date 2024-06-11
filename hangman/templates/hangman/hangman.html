@@ -8,19 +8,17 @@
 {% block links %}<link rel="stylesheet" href="{% static "hangman/css/hangman.css" %}">{% endblock %}
 
 {% block content %}
-<div class="word-container">
-</div>
 <div class="hangman hangman-bg container">
     <div class="select-category">
         <br>
         <p class="text text-center">Select category</p>
         <div class="category-row">
-            <div class="category-item" data-category="Random">
+            <div class="category-item hangman-hover" data-category="Random">
                 <img src="{% static "hangman/img/question-mark_12529740.png" %}" alt="">
                 <p>Random</p>
             </div>
             {% for category in categories %}
-            <div class="category-item" data-category="{{ category.name }}">
+            <div class="category-item hangman-hover" data-category="{{ category.name }}">
                 {% if category.image %}
                     <img src="{{ category.image.url }}" alt="">
                 {% else %}

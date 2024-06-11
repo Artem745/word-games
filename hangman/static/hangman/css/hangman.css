@@ -1,5 +1,6 @@
 .hangman {
-    height: 80vh;
+    position: relative;
+    height: 82vh;
 }
 
 .select-category {
@@ -18,20 +19,25 @@
     gap: 20px;
 }
 
+.hangman-hover {
+    background-color: #f4ff58;
+    transition: background-color 0.3s ease;
+
+}
+@media (hover: hover) {
+    .hangman-hover:hover {
+        background-color: #ffe058;
+    }
+}
+
 .category-item {
     flex: 1 1 calc(25% - 20px); /* Adjust percentage and gap to fit 4 columns */
     max-width: calc(25% - 20px); /* Ensure the max width does not exceed the percentage */
     text-align: center;
     padding: 10px 0px;
     cursor: pointer;
-    background-color: #f4ff58;
     border: 2px solid #000000;
     border-radius: 10px;
-    transition: background-color 0.4s ease;
-}
-
-.category-item:hover {
-    background-color: #ffe058;
 }
 
 .category-item img {
@@ -46,6 +52,12 @@
 }
 
 /* Media queries for responsiveness */
+@media (max-width: 1400px) {
+    .hangman {
+        height: auto;
+    }
+}
+
 @media (max-width: 1200px) {
     .category-item {
         flex: 1 1 calc(33.333% - 20px); /* 3 columns on medium screens */
@@ -64,5 +76,222 @@
     .category-item {
         flex: 1 1 100%; /* 1 column on mobile screens */
         max-width: 100%;
+    }
+} 
+
+.category-text {
+    text-align: end;
+}
+
+.letters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.letter-div {
+    width: 60px;
+    font-size: 34px;
+    height: 60px;
+    text-align: center;
+    align-content: center; 
+    border-bottom: 2px solid #000000;
+    margin-left: 10px;
+    color: #000000;
+}
+
+
+.hangman-man {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    width: 60%;
+    height: 45vh;
+    border: 2px solid #000000;
+    margin: 30px auto 30px auto;
+}
+
+.hangman-drawing {
+    position: relative;
+    width: 30%;
+    height: 100%;
+}
+
+.base, .vertical-pole, .horizontal-pole, .rope, .head, .body, .arm, .left-leg, .right-leg, .corner-pole, .left-eye1, .left-eye2, .right-eye1, .right-eye2 {
+    position: absolute;
+    background-color: black;
+}
+
+.base {
+    bottom: 0;
+    left: 0px;
+    width: 200px;
+    height: 10px;
+}
+
+.vertical-pole {
+    bottom: 10px;
+    left: 50px;
+    width: 10px;
+    height: 300px;
+}
+
+.horizontal-pole {
+    bottom: 310px;
+    left: 50px;
+    width: 145px;
+    height: 10px;
+}
+
+.corner-pole {
+    bottom: 310px;
+    left: 40px;
+    width: 60px;
+    height: 7px;
+    transform: rotate(-45deg);
+    transform-origin: 100% 100%;
+}
+
+.rope {
+    bottom: 270px;
+    left: 192px;
+    width: 6px;
+    height: 50px;
+}
+
+.head {
+    bottom: 225px;
+    left: 170px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 5px solid black;
+}
+
+.left-eye1, .left-eye2, .right-eye1, .right-eye2 {
+    position: absolute;
+    width: 3px;
+    height: 12px;
+    background-color: black;
+    top: 10px;
+}
+
+.left-eye1, .right-eye1 {
+    transform: rotate(45deg);
+}
+
+.left-eye2, .right-eye2 {
+    transform: rotate(-45deg);
+}
+
+.left-eye1, .left-eye2 {
+    left: 11px;
+}
+
+.right-eye1, .right-eye2 {
+    left: 26px;
+}
+
+.body {
+    bottom: 140px;
+    left: 191px;
+    width: 7px;
+    height: 90px;
+}
+
+.arm {
+    bottom: 195px;
+    left: 150px;
+    width: 90px;
+    height: 7px;
+    background-color: black;
+}
+
+
+.left-leg, .right-leg {
+    bottom: 140px;
+    width: 60px;
+    height: 6px;
+    background-color: black;
+}
+
+.left-leg {
+    left: 136px;
+    transform: rotate(-50deg);
+    transform-origin: 100% 100%;
+}
+
+.right-leg {
+    left: 197px;
+    transform: rotate(50deg);
+    transform-origin: 0% 0%;
+}
+
+.keyboard {
+    width: 80%;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+
+.keyboard-button {
+    width: 60px;
+    height: 60px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    align-content: center; 
+    text-align: center;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    color: #000000;
+    font-size: 24px;
+    cursor: pointer;
+}
+.keyboard-button.right {
+    background-color: #00a100;
+    pointer-events: none;
+}
+.keyboard-button.wrong {
+    background-color: #a10000;
+    pointer-events: none;
+}
+
+@media (max-width: 992px) {
+    .hangman-man {
+        width: 100%;
+    }
+}
+@media (max-width: 768px) {
+    .keyboard {
+        width: 100%;
+    }
+    .keyboard-button {
+        width: 45px;
+        height: 45px;
+    }
+}
+@media (max-width: 535px) {
+    .hangman-man {
+        justify-content: start;
+    }
+}
+
+.end-screen {
+    position: absolute;
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+.try-again-button {
+    color: #000000;
+    border: 1px solid #ffe058;
+
+    &:hover {
+        border: 1px solid #ffe058;
+    }
+    &:active {
+        background-color: #ffe058 !important;
     }
 }

@@ -1,10 +1,23 @@
 {% extends "main.html" %}
 {% load static %}
-
-{% block title %}
-{{ title }}
+{% block title %}Wordle{% endblock %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'wordle/css/wordle.css' %}">
 {% endblock %}
 
 {% block content %}
-<p>wordle</p>
+<div class="content">
+    <h1>Wordle</h1>
+    <div class="wordle-grid" id="word-container">
+        <p>{{ word }}</p>
+    <div class="button-spacing">
+        <button id="5-letters-button">CLASSIC 5 latters</button>
+        <button id="4-letters-button">QUARDLE 4 latters</button>
+        <button id="6-letters-button">SIXLE 6 latters</button>
+        <button id="7-letters-button">SEPTLE 7 latters</button>
+    </div>
+        
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'wordle/js/wordle.js' %}"></script>
 {% endblock %}
