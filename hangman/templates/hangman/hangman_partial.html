@@ -1,3 +1,4 @@
+{% load static %}
 <div class="end-screen"></div>
 <p class="text category-text">Category: {{ category }}</p>
 <div class="letters">
@@ -10,4 +11,6 @@
     {% for letter in alphabet %}
         <div class="keyboard-button hangman-hover" data-letter="{{letter}}">{{ letter }}</div>
     {% endfor %}
+    <div class="hint-button hangman-hover"><img src="{% static "hangman/img/solution_5951054.png" %}" alt=""></div>
+
 </div>

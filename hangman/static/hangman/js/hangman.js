@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function () { 
     $(".category-item").click(function () {
         var category = $(this).data('category');
         $.ajax({
@@ -8,6 +8,7 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.status === 'success') {
                     $('.hangman').html(response.update_html);
+                    $('#current-category').val(category);
                 }
             }
         });
@@ -27,7 +28,6 @@ $(document).ready(function () {
                 return $(this).text() === '';
             });
             if (!(isNotWin.length)) {
-                setTimeout(function () {
                     $.ajax({
                         type: 'GET',
                         url: '/hangman/draw/',
@@ -39,7 +39,6 @@ $(document).ready(function () {
                             }
                         }
                     })
-                }, 500);
             }
 
         } else {
@@ -57,23 +56,20 @@ $(document).ready(function () {
             })
 
             if (errors + 1 === 8) {
-                setTimeout(function () {
-                    $.ajax({
-                        type: 'GET',
-                        url: '/hangman/draw/',
-                        data: { 'status': 'over' },
-                        success: function (response) {
-                            if (response.status === 'success') {
-                                $('.end-screen').css('display', 'block');
-                                $('.end-screen').html(response.update_html);
-                            }
+                $.ajax({
+                    type: 'GET',
+                    url: '/hangman/draw/',
+                    data: { 'status': 'over' },
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            $('.end-screen').css('display', 'block');
+                            $('.end-screen').html(response.update_html);
                         }
-                    })
-                }, 500);
+                    }
+                })
             }
         }
     }
-
 
     // Використання делегування подій для динамічно доданих елементів
     // Для кликов по игровой клавиатуре
@@ -83,7 +79,7 @@ $(document).ready(function () {
 
     // Для кликов по обічной клавиатуре
     $(document).on('keypress', function (event) {
-        if (event.key.match(/^[a-zA-Z]$/)) {
+        if ($('.end-screen').css('display') !== 'block' && event.key.match(/^[a-zA-Z]$/)) {
             thiss = $('.keyboard-button').filter(function () {
                 return $(this).data('letter') === event.key.toUpperCase();
             })
@@ -92,37 +88,18 @@ $(document).ready(function () {
             }
         }
     });
+
+    $(document).on('click', '.hint-button', function () {
+        currentLetterDiv = $('.letter-div').filter(function () {
+            return $(this).text() === ''
+        }).first();
+        currentButton = $('.keyboard-button').filter(function () {
+            return $(this).data('letter').toLowerCase() === currentLetterDiv.data('letter')
+        });
+        
+        $(currentButton).addClass('shake');
+        setTimeout(function() {
+            $(currentButton).removeClass('shake');
+        }, 1000);
     });
-
-// $(document).on('keyup', '.letters-input', function (event) {
-//     var inputVal = $(this).val();
-//     var inputName = $(this).attr("name");
-
-//     if (inputVal.length === 1 && inputVal.match(/^[a-zA-Z]{1}$/)) {
-//         var nextInput = $(this).next('.letters-input');
-//         if (inputVal.toLowerCase() === inputName) {
-//             if (!(nextInput.length)) {
-//                 console.log('end');
-//             } else {
-//                 nextInput.focus();
-//             }
-//         } else {
-//             $(this).val('');
-//             var errors = $('#errors').data("errors") || 0;
-//             $.ajax({
-//                 type: 'GET',
-//                 url: '/hangman/draw/',
-//                 data: { 'errors': errors + 1 },
-//                 success: function (response) {
-//                     if (response.status === 'success') {
-//                         $('.hangman-man').html(response.update_html);
-//                     }
-//                 }
-//             });
-//         }
-//     } else if (inputVal.length === 1) {
-//         $(this).blur();
-//         alert('Only english letters!');
-//         $(this).val('');
-//     }
-// });
+});

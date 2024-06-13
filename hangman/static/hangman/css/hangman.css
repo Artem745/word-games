@@ -285,6 +285,7 @@
 }
 
 .try-again-button {
+    padding: 5px 20px !important;
     color: #000000;
     border: 1px solid #ffe058;
 
@@ -294,4 +295,36 @@
     &:active {
         background-color: #ffe058 !important;
     }
+}
+
+.hint-button {
+    width: 60px;
+    height: 60px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    align-content: center;
+    text-align: center;
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.hint-button img {
+    width: 90%;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-3px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(3px);
+    }
+}
+
+.shake {
+    animation: shake 1s;
+    animation-iteration-count: 3;
 }

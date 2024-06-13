@@ -2,14 +2,18 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="exampleModalLongTitle">{% if status == "win" %}Congratulations, You win!{% else %}You lost :({% endif %}</h5>
+                <h5 class="modal-title fw-bold" id="exampleModalLongTitle">{% if status == "win" %}Congratulations, you won!{% else %}You lost :({% endif %}</h5>
             </div>
             <div class="modal-body">
                 Your score: 
             </div>
             <div class="modal-footer">
                 <a href="{% url "home" %}" type="button" class="btn btn-secondary">Menu</a>
-                <a href="{% url "hangman:index" %}" type="button" class="btn try-again-button hangman-hover">Try again</a>
+                {% if status == "win" %}
+                <div type="button" class="btn try-again-button hangman-hover hangman-next">Next</div>
+                {% else %}
+                <div type="button" class="btn try-again-button hangman-hover hangman-next">Try again</div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -20,5 +24,20 @@
             backdrop: 'static',
             keyboard: false
         });
+    });
+
+    $(document).on('click', '.hangman-next', function () {
+        var category = $('#current-category').val();
+        $.ajax({
+            type: 'GET',
+            url: '/hangman/',
+            data: { 'category': category },
+            success: function (response) {
+                if (response.status === 'success') {
+                    $('.hangman').html(response.update_html);
+                    $('.modal-backdrop').remove();
+                }
+            }
+        })
     });
 </script>
