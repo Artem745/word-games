@@ -15,8 +15,99 @@ body {
     height: 100vh;
     flex-direction: column;
     align-items: center; /* Выравнивание по центру горизонтально */
+
     padding-top: 20px; /* Отступ от верхнего края */
 }
+
+.letters-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2%;
+}
+
+.letters {
+    display: flex;
+    justify-content: center;
+}
+
+.letters-input {
+    width: 100px;
+    height: 100px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(51, 51, 51);
+    margin-right: 10px;
+    align-items: center;
+    font-size: 50px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.letters-empty-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px; /* Adjust margin as needed */
+}
+
+.letters-empty  {
+    width: 100px;
+    height: 100px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end; /* Вирівнюємо кнопки з правого краю */
+    align-items: center;
+    margin-top: 2%; /* Можна також використовувати margin-bottom на .letters-container */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; /* Розміщує кнопки по центру горизонтально */
+    margin-top: 2%;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+}
+
+.submit-button {
+    background-color: rgb(229, 255, 0);
+    color: rgb(24, 24, 24);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 20px; /* Відступ між кнопками */
+}
+
+.submit-button:hover {
+    background-color: rgb(164, 182, 0);
+}
+
+.hint-button {
+    background-color: rgb(229, 255, 0);
+    color: rgb(24, 24, 24);
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+.hint-button i {
+    margin-right: 5px; /* Відступ між іконкою і текстом кнопки */
+}
+
+.hint-button:hover {
+    background-color: rgb(164, 182, 0);
+}
+
 
 .text-center {
     font-size: 42px;
@@ -52,6 +143,13 @@ body {
     margin-bottom: 10px;
 }
 
+
+.word-text {
+
+    font-size: 200px;
+
+}
+
 .wordle-hover {
     background-color: #f4ff58;
     transition: background-color 0.3s ease;
@@ -62,3 +160,4 @@ body {
         background-color: #ffe058;
     }
 }
+

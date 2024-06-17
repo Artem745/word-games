@@ -2,30 +2,28 @@
 {% load static %}
 
 {% block title %}
-Wordle
+{{ title }}
 {% endblock %}
 
-{% block links %}
-<link rel="stylesheet" href="{% static 'wordle/css/wordle.css' %}">
-{% endblock %}
+{% block links %}<link rel="stylesheet" href="{% static 'wordle/css/wordle.css' %}">{% endblock %}
 
 {% block content %}
 <div class="content">
     <p class="text text-center">Select category</p>
     <div class="wordle-grid">
-        <button class="category-button wordle-hover">
+        <button class="category-button wordle-hover" data-length="5">
             <i class="bi bi-card-text"></i>
             <span>CLASSIC 5 letters</span>
         </button>
-        <button class="category-button wordle-hover">
+        <button class="category-button wordle-hover" data-length="4">
             <i class="bi bi-card-text"></i>
             <span>QUARDLE 4 letters</span>
         </button>
-        <button class="category-button wordle-hover">
+        <button class="category-button wordle-hover" data-length="6">
             <i class="bi bi-card-text"></i>
             <span>SIXLE 6 letters</span>
         </button>
-        <button class="category-button wordle-hover">
+        <button class="category-button wordle-hover" data-length="7">
             <i class="bi bi-card-text"></i>
             <span>SEPTLE 7 letters</span>
         </button>
