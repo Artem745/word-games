@@ -4,5 +4,6 @@ from wordle import views
 app_name = "wordle"
 
 urlpatterns = [
-    path('', views.index, name="index"),
+    path('wordle/', views.wordle_view, name='wordle_view'),
+    path('', views.index, name="index")
 ]

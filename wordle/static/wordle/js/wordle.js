@@ -1,20 +1,40 @@
 $(document).ready(function() {
-    $('#new-word-button').click(function() {
+    $(".category-button").click(function () {
+        var length = $(this).data('length'); 
+
+        console.log("Button clicked, length: " + length); 
+
         $.ajax({
-            url: "",  
+            url: "wordle/",  
             type: "GET",
-            dataType: "json",
+            data: { "length": length }, 
             success: function(response) {
                 if (response.status === 'success') {
-                    $('#word-container').html(response.update_html);
+                    $('.content').html(response.update_html);
+                } else {
+                    console.error("Error: " + response.message); 
                 }
             },
             error: function(xhr, errmsg, err) {
-                console.log(xhr.status + ": " + xhr.responseText);
+                console.error("AJAX error: " + xhr.status + ": " + xhr.responseText); 
             }
         });
     });
 });
+
+$(document).ready(function() {
+    $(document).on('click', '.submit-button', function() {
+        console.log("Submit button clicked");
+            
+    });
+    
+    $(".submit-button").click(function() {
+        console.log("Submit button clicked");
+          
+    });
+});
+    
+
 
 $(document).on('keyup', '.letters-input', function (event) {
     var inputVal = $(this).val();
