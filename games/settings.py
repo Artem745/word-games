@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'main',
     'hangman',
     'wordle',
+    'creating_categories',
 ]
 
 MIDDLEWARE = [

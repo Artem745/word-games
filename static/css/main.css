@@ -19,12 +19,9 @@
 
 .navbar-nav .nav-item {
     font-size: 30px;
-    margin-left: 70px;
-}
-
-.navbar-nav .nav-item:nth-child(2) {
     margin-left: 50px;
 }
+
 
 @media (max-width: 992px) {
     .navbar-nav .nav-item {

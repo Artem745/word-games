@@ -16,6 +16,7 @@ class Category(models.Model):
 class Word(models.Model):
     name = models.CharField(max_length=255, unique=True)
     category = models.ForeignKey(to=Category, on_delete=models.CASCADE)
+    lenght = models.PositiveIntegerField(default=0)
 
     class Meta:
         db_table = "word"
@@ -24,3 +25,7 @@ class Word(models.Model):
     
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        self.lenght = len(self.name)
+        super(Word, self).save(*args, **kwargs)

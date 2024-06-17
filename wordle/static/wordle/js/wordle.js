@@ -1,9 +1,10 @@
 $(document).ready(function() {
-    $('#new-word-button').click(function() {
+    $(".wordle-grid").click(function () {
         $.ajax({
-            url: "",  
+            url: "/wordle/",  
             type: "GET",
             dataType: "json",
+            data: { "lenght": lenght },
             success: function(response) {
                 if (response.status === 'success') {
                     $('#word-container').html(response.update_html);
