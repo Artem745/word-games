@@ -5,7 +5,9 @@
 {{ title }}
 {% endblock %}
 
-{% block links %}<link rel="stylesheet" href="{% static 'wordle/css/wordle.css' %}">{% endblock %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'wordle/css/wordle.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="content">
@@ -29,6 +31,10 @@
         </button>
     </div>
 </div>
+
+<form id="letters-form" method="post">
+    {% csrf_token %}
+</form>
 
 <script>
     $('.navbar').removeAttr('style');

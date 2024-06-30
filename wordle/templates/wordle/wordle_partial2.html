@@ -1,0 +1,27 @@
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="exampleModalLongTitle">{% if status == "win" %}Congratulations, you won!{% else %}You lost:({% endif %}</h5>
+            </div>
+            <div class="modal-body">
+                {% if status == "win" %}
+                    Every day, you're getting better and better
+                {% else %}
+                    Correct word is <b>{{ word }}</b>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <a href="{% url 'home' %}" type="button" class="btn btn-secondary">Menu</a>
+                <div type="button" class="btn try-again-button wordle-hover wordle-next">Next</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(".wordle-next").click(function() {
+        location.reload(); // Перезавантажити сторінку
+    });
+</script>

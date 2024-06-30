@@ -1,0 +1,23 @@
+<div style="position: relative;">
+    <div class="end-screen"></div>
+    <div class="error-screen"></div>
+    <div class="letters-container">
+        <form method="POST" action="">
+            {% csrf_token %}
+            {% for row in '12345' %}
+                <div class="letters-row {% if forloop.first %}active{% endif %}">
+                    {% for _ in word %}
+                        <input type="text" name="letters-{{ forloop.parentloop.counter }}-{{ forloop.counter }}" class="letters-input" autocomplete="off" maxlength="1" {% if not forloop.parentloop.first %} readonly {% endif %}>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </form>
+    </div>
+    
+    <div class="button-container">
+        <div class="buttons">
+            <button type="button" class="submit-button">Submit</button>
+            <button type="button" class="hint-button"><i class="bi bi-lightbulb"></i></button>
+        </div>
+    </div>
+</div>
