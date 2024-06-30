@@ -1,6 +1,6 @@
-<p data-errors="{{errors}}" id="errors" style="display: none;"></p>
+{% load static %}
 {% if errors >= 1 %}
-    <div class="hangman-drawing">
+    <div class="hangman-drawing" data-errors="{{errors}}">
         <div class="base"></div>
         <div class="vertical-pole"></div>
         <div class="horizontal-pole"></div>
@@ -34,3 +34,7 @@
         {% endif %}
     </div>
 {% endif %}
+
+<script>
+    errors = "{{errors}}";
+</script>

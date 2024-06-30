@@ -28,4 +28,8 @@ class Word(models.Model):
     
     def save(self, *args, **kwargs):
         self.length = len(self.name)
+<<<<<<< HEAD
         super(Word, self).save(*args, **kwargs)
+=======
+        super(Word, self).save(*args, **kwargs)
+>>>>>>> ab3776558bb11d71d403e5be9cdc9f0f6c5bb51a

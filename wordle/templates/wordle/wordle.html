@@ -3,11 +3,16 @@
 
 {% block title %}
 {{ title }}
+<<<<<<< HEAD
 {% endblock %}
 
 {% block links %}
 <link rel="stylesheet" href="{% static 'wordle/css/wordle.css' %}">
+=======
+>>>>>>> ab3776558bb11d71d403e5be9cdc9f0f6c5bb51a
 {% endblock %}
+
+{% block links %}<link rel="stylesheet" href="{% static 'wordle/css/wordle.css' %}">{% endblock %}
 
 {% block content %}
 <div class="content">
@@ -32,10 +37,13 @@
     </div>
 </div>
 
+<<<<<<< HEAD
 <form id="letters-form" method="post">
     {% csrf_token %}
 </form>
 
+=======
+>>>>>>> ab3776558bb11d71d403e5be9cdc9f0f6c5bb51a
 <script>
     $('.navbar').removeAttr('style');
 </script>

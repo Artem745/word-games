@@ -8,21 +8,31 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.status === 'success') {
                     $('.hangman').html(response.update_html);
-                    $('#current-category').val(category);
                 }
             }
         });
 
     });
 
-    function keyboard(thiss) {
-        var clickedLetter = thiss.data('letter');
-        var currentLetterDiv = $('.letter-div').filter(function () {
-            return $(this).data('letter') === clickedLetter.toLowerCase() && $(this).text() === '';
+    function compareLetters(clickedLetter) {
+        isCorrect = false;
+
+        $('.letter-div').each(function () {
+            var index = $(this).data('index');
+            if (word[index].toLowerCase() === clickedLetter.toLowerCase()) {
+                $(this).text(clickedLetter);
+                isCorrect = true;
+            };
         });
-        if (currentLetterDiv.length) {
-            currentLetterDiv.text(clickedLetter);
-            thiss.addClass('right');
+        return isCorrect;
+    }
+
+    function keyboard(thiss) {
+
+        var clickedLetter = thiss.data('letter');
+
+        if (compareLetters(clickedLetter)) {
+            thiss.addClass('right')
 
             var isNotWin = $('.letter-div').filter(function () {
                 return $(this).text() === '';
@@ -40,10 +50,9 @@ $(document).ready(function () {
                         }
                     })
             }
-
         } else {
             thiss.addClass('wrong');
-            var errors = $('#errors').data("errors") || 0;
+            errors = Number(errors);
             $.ajax({
                 type: 'GET',
                 url: '/hangman/draw/',
@@ -72,34 +81,40 @@ $(document).ready(function () {
     }
 
     // Використання делегування подій для динамічно доданих елементів
-    // Для кликов по игровой клавиатуре
+    // Для игровой клавіатури
     $(document).on('click', '.keyboard-button', function () {
-        keyboard($(this))
+        keyboard($(this));
     });
 
-    // Для кликов по обічной клавиатуре
+    // Для обічной клавіатури
     $(document).on('keypress', function (event) {
         if ($('.end-screen').css('display') !== 'block' && event.key.match(/^[a-zA-Z]$/)) {
-            thiss = $('.keyboard-button').filter(function () {
+            var thiss = $('.keyboard-button').filter(function () {
                 return $(this).data('letter') === event.key.toUpperCase();
-            })
+            });
             if (!$(thiss).hasClass('right') && !$(thiss).hasClass('wrong')) {
-                keyboard(thiss)
+                keyboard(thiss);
             }
         }
     });
 
     $(document).on('click', '.hint-button', function () {
-        currentLetterDiv = $('.letter-div').filter(function () {
-            return $(this).text() === ''
-        }).first();
-        currentButton = $('.keyboard-button').filter(function () {
-            return $(this).data('letter').toLowerCase() === currentLetterDiv.data('letter')
-        });
-        
-        $(currentButton).addClass('shake');
-        setTimeout(function() {
-            $(currentButton).removeClass('shake');
-        }, 1000);
+        if (hints) {
+            hints -= 1;
+            currentLetterDiv = $('.letter-div').filter(function () {
+                return $(this).text() === ''
+            }).first();
+            currentLetter = word[currentLetterDiv.data('index')]
+            currentButton = $('.keyboard-button').filter(function () {
+                return $(this).data('letter').toLowerCase() === currentLetter
+            });
+            
+            $('.hint-text').text(hints)
+
+            $(currentButton).addClass('shake');
+            setTimeout(function() {
+                $(currentButton).removeClass('shake');
+            }, 1000);
+        }
     });
 });

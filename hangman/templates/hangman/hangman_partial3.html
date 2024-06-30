@@ -27,11 +27,10 @@
     });
 
     $(document).on('click', '.hangman-next', function () {
-        var category = $('#current-category').val();
         $.ajax({
             type: 'GET',
             url: '/hangman/',
-            data: { 'category': category },
+            data: { 'category': category, 'hints': hints },
             success: function (response) {
                 if (response.status === 'success') {
                     $('.hangman').html(response.update_html);
