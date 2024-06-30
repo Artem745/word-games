@@ -197,14 +197,8 @@ $(document).ready(function() {
         
                 // Отримання першого пустого input поля у останньому ряду
                 var emptyInput = lastEmptyRow.find('.letters-input[value=""]');
-        
-                // Перевірка, чи є пусті поля для вставки підказки
-                if (emptyInput.length > 0) {
-                    // Оновлення відповідного пустого поля вводу з підказкою
-                    emptyInput.first().val(hintLetter);
-                } else {
-                    console.error("No empty input fields available for hint.");
-                }
+    
+                emptyInput.first().val(hintLetter);
             } else {
                 console.error("Error: " + response.message);
             }

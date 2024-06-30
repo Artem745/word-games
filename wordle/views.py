@@ -96,7 +96,7 @@ def wordle_status(request):
         update_html = render_to_string("wordle/wordle_partial2.html", {"status": "win"})
 
     if request.GET.get('status') == "lose":
-        real_word = request.session.get('real_word')  # Отримуємо real_word з сесії
+        real_word = request.session.get('real_word')  
         update_html = render_to_string("wordle/wordle_partial2.html", {"status": "lose", "word": real_word})
         
     if request.GET.get('status') == "unexist":
