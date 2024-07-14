@@ -26,6 +26,7 @@ urlpatterns = [
     path('', views.home, name="home"),
     path('hangman/', include("hangman.urls", namespace="hangman")),
     path('wordle/', include("wordle.urls", namespace="wordle")),
+    path('', include("users.urls", namespace="users")),
     path('creating_categories/', include("creating_categories.urls", namespace="creating_categories")),
 ]
 

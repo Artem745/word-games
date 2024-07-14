@@ -1,0 +1,45 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block links %}<link rel="stylesheet" href="{% static "users/css/users.css" %}">{% endblock %}
+
+{% block content %}
+<div class="container auth-container">
+    <p style="font-size: 30px; text-align: center;">Create an account</p>
+    <form action="{% url "users:signup" %}" method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="id_email">Email</label>
+            <input type="email" class="form-control" name="email" id="id_email" value="{% if form.email.value %}{{form.email.value}}{% endif %}" required>
+            {% if form.email.errors %}<div class="errors-container" style="color: red; font-size: 14px; padding-left: 0rem;">{{form.email.errors}}</div>{% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_password1">Password</label>
+            <input type="password" class="form-control" name="password1" id="id_password1" required>
+            {% if form.password1.errors %}<div class="errors-container" style="color: red;">{{form.password1.errors}}</div>{% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_password2">Repeat password</label>
+            <input type="password" class="form-control" name="password2" id="id_password2" required>
+            {% if form.password2.errors %}<div class="errors-container" style="color: red;">{{form.password2.errors}}</div>{% endif %}
+        </div>
+
+        <div style="font-size: 14px;">Already have an account? <a style="font-size: 14px;" href="{% url "users:login" %}">Log in</a></div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+        <div class="col-12">
+            <div class="d-flex gap-3 flex-column">
+                <a href="#" class="btn btn-google">
+                    <i class="bi bi-google"></i>
+                    <span class="ms-2 fs-5 text-uppercase">Sign in With Google</span>
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

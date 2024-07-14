@@ -112,6 +112,12 @@
     margin: 30px auto 30px auto;
 }
 
+@media (max-height: 700px) {
+    .hangman-man {
+        height: 52vh;
+    }
+} 
+
 .hangman-drawing {
     position: relative;
     width: 30%;
@@ -240,13 +246,13 @@
     height: 60px;
     margin-left: 10px;
     margin-bottom: 10px;
-    align-content: center; 
-    text-align: center;
     border: 1px solid #000000;
     border-radius: 5px;
     color: #000000;
     font-size: 24px;
+    line-height: 60px;
     cursor: pointer;
+    text-align: center;
 }
 .keyboard-button.right {
     background-color: #00a100;

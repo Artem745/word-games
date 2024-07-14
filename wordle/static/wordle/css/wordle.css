@@ -1,16 +1,3 @@
-/* Reset CSS */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-<<<<<<< HEAD
-=======
-}
-
 .content {
     text-align: center;
     background-color: green; /* Зеленый фон */
@@ -25,7 +12,7 @@ body {
     display: flex;
     flex-direction: column;
     margin-top: 2%;
->>>>>>> ab3776558bb11d71d403e5be9cdc9f0f6c5bb51a
+
 }
 
 .content {
@@ -48,15 +35,13 @@ body {
 .letters-row {
     display: flex;
     justify-content: center;
-<<<<<<< HEAD
+
     margin-bottom: 10px;
-=======
->>>>>>> ab3776558bb11d71d403e5be9cdc9f0f6c5bb51a
 }
 
 .letters-input {
     width: 100px;
-<<<<<<< HEAD
+
     border-radius: 10px;
     height: 100px;
     text-align: center;
@@ -64,27 +49,36 @@ body {
     font-size: 50px;
 }
 
+@media (max-width: 768px) {
+    .letters-input {
+        width: 60px;
+        height: 60px;
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 576px) {
+    .letters-input {
+        width: 50px;
+        height: 50px;
+        font-size: 30px;
+    }
+}
 
 .button-container {
     display: flex;
-    justify-content: flex-end; 
-    align-items: center;
-    margin-top: 2%;
-=======
+    justify-content: center; 
     height: 100px;
-    background-color: rgb(255, 255, 255);
+    background-color: #0f7e00;
     color: rgb(51, 51, 51);
-    margin-right: 10px;
     align-items: center;
     font-size: 50px;
     text-align: center;
-    border-radius: 10px;
 }
 
 .letters-empty-container {
     display: flex;
     justify-content: center;
-    margin-top: 10px; /* Adjust margin as needed */
 }
 
 .letters-empty  {
@@ -93,24 +87,6 @@ body {
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
     margin-right: 10px;
->>>>>>> ab3776558bb11d71d403e5be9cdc9f0f6c5bb51a
-}
-
-.button-container {
-    display: flex;
-<<<<<<< HEAD
-    justify-content: center; 
-=======
-    justify-content: flex-end; /* Вирівнюємо кнопки з правого краю */
-    align-items: center;
-    margin-top: 2%; /* Можна також використовувати margin-bottom на .letters-container */
-}
-
-.button-container {
-    display: flex;
-    justify-content: center; /* Розміщує кнопки по центру горизонтально */
->>>>>>> ab3776558bb11d71d403e5be9cdc9f0f6c5bb51a
-    margin-top: 2%;
 }
 
 .buttons {
@@ -192,7 +168,6 @@ body {
 
     font-size: 200px;
 
-<<<<<<< HEAD
 }
 
 .wordle-hover {
@@ -352,8 +327,6 @@ body {
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
-=======
->>>>>>> ab3776558bb11d71d403e5be9cdc9f0f6c5bb51a
 }
 
 .wordle-hover {

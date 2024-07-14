@@ -7,7 +7,7 @@
             {% for row in '12345' %}
                 <div class="letters-row {% if forloop.first %}active{% endif %}">
                     {% for _ in word %}
-                        <input type="text" name="letters-{{ forloop.parentloop.counter }}-{{ forloop.counter }}" class="letters-input" autocomplete="off" maxlength="1" {% if not forloop.parentloop.first %} readonly {% endif %}>
+                        <input type="text" name="letters-{{ forloop.parentloop.counter }}-{{ forloop.counter }}" class="letters-input" autocomplete="off" maxlength="1" data-position="{{ forloop.counter0 }}" {% if not forloop.parentloop.first %} readonly {% endif %}>
                     {% endfor %}
                 </div>
             {% endfor %}
