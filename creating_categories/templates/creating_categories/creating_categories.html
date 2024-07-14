@@ -4,7 +4,8 @@
 
 {% block content %}
 <div class="container">
-    <p>Your categories</p>
+    <p>{{user.get_short_name}}</p>
+    <p>Your categories:</p>
     <a href="{% url "users:logout" %}" class="btn btn-danger">Log out</a>
 </div>
 {% endblock %}

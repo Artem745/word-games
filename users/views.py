@@ -33,7 +33,7 @@ def signup(request):
             form.save()
 
             user = form.instance
-            auth.login(request, user)
+            auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect(reverse("creating_categories:index"))
     else:
         form = UserRegistrationForm()

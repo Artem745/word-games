@@ -28,6 +28,7 @@ urlpatterns = [
     path('wordle/', include("wordle.urls", namespace="wordle")),
     path('', include("users.urls", namespace="users")),
     path('creating_categories/', include("creating_categories.urls", namespace="creating_categories")),
+    path('', include('social_django.urls', namespace='social')),
 ]
 
 if settings.DEBUG:
