@@ -1,22 +1,6 @@
 $(document).ready(function() {
-    // function getCookie(name) {
-    //     let cookieValue = null;
-    //     if (document.cookie && document.cookie !== '') {
-    //         const cookies = document.cookie.split(';');
-    //         for (let i = 0; i < cookies.length; i++) {
-    //             const cookie = cookies[i].trim();
-    //             if (cookie.substring(0, name.length + 1) === (name + '=')) {
-    //                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-    //                 break;
-    //             }
-    //         }
-    //     }
-    //     return cookieValue;
-    // }
-
     const csrftoken = window.csrfToken;
     
-
     $(".category-button").click(function() {
         const length = $(this).data('length'); 
         console.log("Button clicked, length: " + length); 
@@ -83,6 +67,7 @@ $(document).ready(function() {
                                     console.log("Function is success");
                                     $('.end-screen').css('display', 'block');
                                     $('.end-screen').html(response.update_html);
+                                    $('#exampleModalCenter').modal('show');
                                 }
                             }
                         });
@@ -126,7 +111,7 @@ $(document).ready(function() {
                                 console.log("Function is success");
                                 $('.error-screen').css('display', 'block');
                                 $('.error-screen').html(response.update_html);
-                                $('#exampleModalCenter').modal('show'); // єто если слишком мелкое слово
+                                $('#exampleModalCenter').modal('show'); 
                             }
                         }
                     });
@@ -142,7 +127,7 @@ $(document).ready(function() {
                                 console.log("Function is success");
                                 $('.error-screen').css('display', 'block');
                                 $('.error-screen').html(response.update_html);
-                                $('#exampleModalCenter').modal('show'); // єто если не корект слово
+                                $('#exampleModalCenter').modal('show'); 
                             }
                         }
                     });
@@ -155,7 +140,7 @@ $(document).ready(function() {
         });
     });
 
-    var usedLetters = []; // Глобальний масив для зберігання використаних літер
+    var usedLetters = []; 
 
     $(document).on('click', '.hint-button', function() {
         $.ajax({
@@ -163,9 +148,10 @@ $(document).ready(function() {
             type: "POST",
             headers: { 'X-CSRFToken': csrftoken },
             data: {
-                'hint_letter': JSON.stringify(usedLetters), // Convert array to JSON string
+                'hint_letter': JSON.stringify(usedLetters),
                 'real_word': window.realWord
             },
+            traditional: true,
             success: function(response) {
                 if (response.status === 'success') {
                     console.log("Hint is " + response.hint);
@@ -178,9 +164,9 @@ $(document).ready(function() {
                     }).first();
 
                     if (emptyInput.length > 0) {
-                        // Find the correct position for the hint letter in the real word
                         const hintIndex = window.realWord.indexOf(hintLetter);
                         lastActiveRow.find('.letters-input').eq(hintIndex).val(hintLetter);
+                        emptyInput.val(hintLetter);
                     } else {
                         console.error("No empty input fields available for hint.");
                     }

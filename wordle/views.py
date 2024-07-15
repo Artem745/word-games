@@ -96,6 +96,8 @@ def wordle_hint(request):
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})
 
+
+
         
 def wordle_status(request):
     if request.GET.get('status') == "win":

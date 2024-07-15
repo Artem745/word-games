@@ -1,3 +1,17 @@
+
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+
+
+}
+
 .content {
     text-align: center;
     background-color: green; /* Зеленый фон */
@@ -68,6 +82,9 @@
 .button-container {
     display: flex;
     justify-content: center; 
+    justify-content: flex-end; 
+    align-items: center;
+    margin-top: 2%;
     height: 100px;
     background-color: #0f7e00;
     color: rgb(51, 51, 51);
@@ -87,6 +104,21 @@
     background-color: rgb(255, 255, 255);
     border-radius: 10px;
     margin-right: 10px;
+
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; 
+    justify-content: flex-end; /* Вирівнюємо кнопки з правого краю */
+    align-items: center;
+    margin-top: 2%; /* Можна також використовувати margin-bottom на .letters-container */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; /* Розміщує кнопки по центру горизонтально */
+    margin-top: 2%;
 }
 
 .buttons {

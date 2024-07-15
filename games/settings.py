@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'wordle',
     'creating_categories',
     'users',
+    'words',
+
 ]
 
 MIDDLEWARE = [
