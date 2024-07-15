@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 import random
 import enchant
+import json
 
 
 # main Wordle - це сторінка на якій обираємо категорію для гри Wordle
@@ -28,7 +29,7 @@ def index(request):
     }
     return render(request, "wordle/wordle.html", context)
 
-@csrf_exempt
+# @csrf_exempt
 @require_POST # сама жопа, тут вся логіка гри wordle перевірки слов на їх правільність у def check_word_exists(word) і встановлення відповідного кольору для літер
 def check_word_view(request):
     user_answer = request.POST.get('user_answer') # from js we get USER_ANSWER (те що написав юзер)
@@ -77,19 +78,24 @@ def check_word_exists(word):
     check = enchant.Dict("en_US")
     return check.check(word)
 
-
-@csrf_exempt
 def wordle_hint(request):
     if request.method == 'POST':
-        used_letters = request.POST.getlist('hint_letter[]')  # Отримання списку використаних літер з запиту
+        used_letters_json = request.POST.get('hint_letter')  # Отримуємо JSON-рядок зі списком використаних літер
+        used_letters = json.loads(used_letters_json)  # Розбираємо JSON-рядок у список
+        print(used_letters)  # Друкуємо список використаних літер для перевірки
+        
         real_word = request.POST.get('real_word') 
         available_letters = [letter for letter in real_word if letter not in used_letters]
+        
         if available_letters:
             hint = random.choice(available_letters)  # Вибір випадкової літери зі списку доступних
             used_letters.append(hint)
-            return JsonResponse({'status': 'success', 'hint' : hint, 'used_letters' : used_letters})
+            return JsonResponse({'status': 'success', 'hint': hint, 'used_letters': used_letters})
         else:
-            return JsonResponse({'status': 'error', 'message': 'No hint available.'}) 
+            return JsonResponse({'status': 'error', 'message': 'No hint available.'})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})
+
         
 def wordle_status(request):
     if request.GET.get('status') == "win":
@@ -106,4 +112,5 @@ def wordle_status(request):
         update_html = render_to_string("wordle/wordle_partial3.html", {"status": "short"})
         
     return JsonResponse({'status': 'success', 'update_html': update_html})
+    
     

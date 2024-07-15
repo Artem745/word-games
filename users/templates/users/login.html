@@ -1,0 +1,40 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block links %}<link rel="stylesheet" href="{% static "users/css/users.css" %}">{% endblock %}
+
+{% block content %}
+<div class="container auth-container">
+    <p style="font-size: 30px; text-align: center;">Log in</p>
+    <form action="{% url "users:login" %}" method="POST">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <p style="color: red;">Enter correct email and password!</p>
+        {% endif %}
+        <div class="form-group">
+            <label for="id_email">Email</label>
+            <input type="email" class="form-control" name="email" id="id_email" value="{% if form.email.value %}{{form.email.value}}{% endif %}" required>
+        </div>
+        <div class="form-group">
+            <label for="id_password">Password</label>
+            <input type="password" class="form-control" name="password" id="id_password" required>
+        </div>
+        
+        <div style="font-size: 14px;">Don't have an account? <a style="font-size: 14px;" href="{% url "users:signup" %}">Create</a></div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+        <div class="col-12">
+            <div class="d-flex gap-3 flex-column">
+                <a href="{% url "social:begin" "google-oauth2" %}" class="btn btn-google">
+                    <i class="bi bi-google"></i>
+                    <span class="ms-2 fs-5 text-uppercase">Sign in With Google</span>
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}
