@@ -1,0 +1,35 @@
+{% extends "main.html" %}
+
+{% load static %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block links %}<link rel="stylesheet" href="{% static 'words/css/words.css' %}">{% endblock %}
+
+{% block content %}
+<div class="content">
+    <p class="text text-center">Select category</p>
+    <div class="words-grid">
+        <button class="category-button words-hover" data-name="city">
+            <i class="bi bi-globe-americas"></i>
+            <span>Country&City</span>
+        </button>
+
+        <button class="category-button words-hover" data-name="all">
+            <i class="bi bi-arrows-fullscreen"></i>
+            <span>All words</span>
+        </button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('.navbar').removeAttr('style');
+    });
+</script>
+<script src="{% static 'js/cookie.js' %}"></script>
+<script src="{% static 'words/js/words.js' %}"></script>
+{% endblock %}
+
