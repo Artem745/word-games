@@ -1,4 +1,3 @@
-from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from hangman.models import Word
 from django.template.loader import render_to_string
@@ -29,7 +28,6 @@ def index(request):
     }
     return render(request, "wordle/wordle.html", context)
 
-# @csrf_exempt
 @require_POST # сама жопа, тут вся логіка гри wordle перевірки слов на їх правільність у def check_word_exists(word) і встановлення відповідного кольору для літер
 def check_word_view(request):
     user_answer = request.POST.get('user_answer') # from js we get USER_ANSWER (те що написав юзер)
@@ -95,8 +93,6 @@ def wordle_hint(request):
             return JsonResponse({'status': 'error', 'message': 'No hint available.'})
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})
-
-
 
         
 def wordle_status(request):

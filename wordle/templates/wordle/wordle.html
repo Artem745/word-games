@@ -31,11 +31,6 @@
         </button>
     </div>
 </div>
-
-<form id="letters-form" method="post">
-    {% csrf_token %}
-</form>
-
 <script>
     $(document).ready(function() {
         $('.navbar').removeAttr('style');
@@ -43,6 +38,6 @@
 
     window.csrfToken = '{{ csrf_token }}';
 </script>
-<script src="{% static 'js/cookie.js' %}"></script>
+
 <script src="{% static 'wordle/js/wordle.js' %}"></script>
 {% endblock %}
