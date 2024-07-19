@@ -15,7 +15,7 @@ def login(request):
             user = auth.authenticate(email=email, password=password)
             if user:
                 auth.login(request, user)
-                return redirect(reverse("creating_categories:index"))
+                return redirect(reverse("creating:hangman"))
     else:
         form = UserLoginForm()
 
@@ -34,7 +34,7 @@ def signup(request):
 
             user = form.instance
             auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            return redirect(reverse("creating_categories:index"))
+            return redirect(reverse("creating:hangman"))
     else:
         form = UserRegistrationForm()
 

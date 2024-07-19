@@ -13,7 +13,7 @@
               <a class="nav-item nav-link {% if title == "Hangman" %}active{% endif %}" href="{% url "hangman:index" %}">Hangman</a>
               <a class="nav-item nav-link {% if title == "Wordle" %}active{% endif %}" href="{% url "wordle:index" %}">Wordle</a>
               <a class="nav-item nav-link {% if title == 'Words' %}active{% endif %}" href='{% url "words:index" %}'>Words</a>
-              <a class="nav-item nav-link {% if title == "Your categories" %}active{% endif %}" href="{% url "creating_categories:index" %}">Your categories</a>
+              <a class="nav-item nav-link {% if title == "Your categories | Hangman" or title == "Your categories | Wordle" %}active{% endif %}" href="{% url "creating:hangman" %}">Your categories</a>
             </div>
           </div>
       </div>

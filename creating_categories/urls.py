@@ -4,5 +4,7 @@ from creating_categories import views
 app_name = "creating_categories"
 
 urlpatterns = [
-    path('', views.index, name="index")
+    path('hangman/', views.hangman, name="hangman"),
+    path('wordle/', views.wordle, name="wordle"),
+    path('delete-word/', views.delete_word, name="delete_word"),
 ]

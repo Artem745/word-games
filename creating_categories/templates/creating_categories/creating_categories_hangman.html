@@ -1,0 +1,177 @@
+{% extends "main.html" %}
+{% load static %}
+{% load word_id_filters %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block links %}<link rel="stylesheet" href="{% static "creating_categories/css/creating_categories.css" %}">{% endblock %}
+
+{% block content %}
+<div class="container" style="position: relative;">
+    <p>Hello, <b>{{user.get_short_name}}!</b></p>
+    <p>Create categories for: <a href="{% url "creating:hangman" %}"><b>Hangman</b></a> / <a href="{% url "creating:wordle" %}">Wordle</a></p>
+
+    {% if form.errors %}
+        <ul style="padding-left: 0">
+        {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+                <li style="color: red;">{{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="words-container">
+        <p class="word-name">Your categories and words:</p>
+        <div class="add-word-btn" style="display: flex; flex-direction: column;">
+            <button type="button" class="btn btn-primary" style="margin-bottom: 3px;" data-toggle="modal" data-target="#AddCategoryModal">
+                Add category
+            </button>
+            {% if user_categories %}
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddWordModal">
+                    Add word
+                </button>
+            {% endif %}
+        </div>
+        <div class="modal fade" id="AddCategoryModal" tabindex="-1" role="dialog" aria-labelledby="AddCategoryModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="AddCategoryTitle"><b>Add new category</b></h5>
+                    </div>
+                    <form action="{% url "creating:hangman" %}" method="POST">  
+                        <div class="modal-body">
+                            {% csrf_token %}
+                            <label for="id_name">Name:</label>
+                            <input type="text" name="name" id="id_name" class="form-control">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+
+                        <input type="hidden" name="category_or_word" value="category">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="AddWordModal" tabindex="-1" role="dialog" aria-labelledby="AddWordModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="AddWordTitle"><b>Add new word</b></h5>
+                    </div>
+                    <form action="{% url "creating:hangman" %}" method="POST">  
+                        <div class="modal-body">
+                            {% csrf_token %}
+                            <label for="id_name">Name:</label>
+                            <input type="text" name="name" id="id_name" class="form-control">
+
+                            <label for="id_category">Category:</label>
+                            <select class="form-select" aria-label="Default select example"name="category" id="id_category">
+                                {% for category in user_categories %}
+                                    <option value="{{category.name}}">{{category.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+
+                        <input type="hidden" name="category_or_word" value="word">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% if user_categories %}
+            {% for category in user_categories %}
+            <div>
+                <div class="word-container category-container">
+                    <button class="words-button{% if not category.word.all %} disabled{% endif %}" type="button" data-toggle="collapse" data-target="#collapseWords{{category.name}}" aria-expanded="false" aria-controls="collapseWords">
+                        &#x25BC;
+                    </button>
+                    <p class="word-name">{{ category.name }}</p>
+                    <div href="" class="delete-button play-button">
+                        <i class="bi bi-copy" style="color: white;"></i>
+                    </div>
+                    <div href="" class="delete-button" data-id="{{category.id|encrypt_id}}" data-type="category">
+                        <i class="bi bi-trash" style="color: white"></i>
+                    </div>
+                </div>
+                <div class="collapse" id="collapseWords{{category.name}}">
+                    <div class="card card-body words-div" style="padding: 0;">
+                        {% for word in category.word.all %}
+                            <div class="word-container" style="margin: 10px;">
+                                <div>
+                                    <p class="word-name">{{word.name}}</p>
+                                </div>
+                                <div href="" class="delete-button" data-id="{{word.id|encrypt_id}}" data-type="word">
+                                    <i class="bi bi-trash" style="color: white"></i>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+                <p style="margin-top: 1rem;">You don't have categories yet</p>
+        {% endif %}
+        
+    </div>
+    <br>
+    <a href="{% url "users:logout" %}" class="btn btn-danger">Log out</a>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.delete-button').on('click', function(event) {
+            var delBtn = $(this);
+            var word_id = delBtn.data('id');
+            var word_type = delBtn.data('type');
+    
+            $.ajax({
+                url: '{% url "creating:delete_word" %}',
+                type: 'POST',
+                data: {
+                    'word_id': word_id,
+                    'type': word_type,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    if (response.status === 'success') {
+                        if (word_type === "category") {
+                            delBtn.parent().parent().remove();
+                        } else {
+                            // This part is needed to hide collaps div and set classes for words-button
+                            // If there is location.reload(); TO ONO HANYI NE NYGNO
+                            var collapseContainer = delBtn.closest('.collapse');
+                            var categoryContainer = collapseContainer.prev('.category-container');
+    
+                            if (collapseContainer.find('.word-container').length === 1) {
+    
+                                var wordsButton = categoryContainer.find('.words-button');
+    
+                                delBtn.closest('.word-container').remove();
+    
+                                collapseContainer.collapse('hide');
+    
+                                wordsButton.removeClass('rotated');
+                                wordsButton.addClass('disabled');
+                            } else {
+                                delBtn.closest('.word-container').remove();
+                            }
+                        }
+                        location.reload();
+                    }
+                }
+            })
+        });
+        $('.words-button').click(function () {
+            $(this).toggleClass('rotated')
+        });
+    });
+</script>
+{% endblock %}

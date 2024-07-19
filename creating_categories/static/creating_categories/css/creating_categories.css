@@ -1,0 +1,88 @@
+.words-container {
+    position: relative;
+    border: 1px solid #0d6efd;
+    border-radius: 5px;
+    max-width: 75vw;
+    margin: 0 auto;
+    padding: 5px;
+    background-color: #d3e5ff;
+}
+
+.add-word-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.word-container {
+    display: flex;
+    align-items: center;
+    margin: 10px 5px;
+}
+
+.word-name {
+    margin: 0;
+}
+
+.delete-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 27px;
+    height: 27px;
+    background-color: grey;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.play-button {
+    background-color: #0d6efd;
+}
+
+.category-container {
+    background-color: #FFF;
+    display: inline-flex;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.words-button {
+    color: black; 
+    background-color: transparent; 
+    margin: 0 10px 0 0;
+    transform: rotate(-90deg);
+    transition: transform 0.3s ease;
+}
+
+.words-button.rotated {
+    transform: rotate(0deg);
+}
+
+.words-button.disabled {
+    pointer-events: none;
+}
+
+.words-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .words-container {
+        max-width: 100vw;
+    }
+}
+
+@media (max-width: 450px) {
+    .add-word-btn {
+        position: static;
+        margin: 10px 0;
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+}

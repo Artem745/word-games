@@ -1,0 +1,98 @@
+{% extends "main.html" %}
+{% load static %}
+{% load word_id_filters %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block links %}<link rel="stylesheet" href="{% static "creating_categories/css/creating_categories.css" %}">{% endblock %}
+
+
+{% block content %}
+<div class="container" style="position: relative;">
+    <p>Hello, <b>{{user.get_short_name}}!</b></p>
+    <p>Create categories for: <a href="{% url "creating:hangman" %}">Hangman</a> / <a href="{% url "creating:wordle" %}"><b>Wordle</b></a></p>
+
+    {% if form.errors %}
+        <ul style="padding-left: 0">
+        {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+                <li style="color: red;">{{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="words-container">
+        <p class="word-name">Your words:</p>
+        <button type="button" class="add-word-btn btn btn-primary" data-toggle="modal" data-target="#AddWordModal">
+            Add word
+        </button>
+
+        <div class="modal fade" id="AddWordModal" tabindex="-1" role="dialog" aria-labelledby="AddWordModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="AddWordTitle"><b>Add new word</b></h5>
+                    </div>
+                    <form action="{% url "creating:wordle" %}" method="POST">  
+                        <div class="modal-body">
+                                {% csrf_token %}
+                                <label for="id_name">Name:</label>
+                                <input type="text" name="name" id="id_name" class="form-control">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        {% if user_words %}
+            <div style="margin-top: 10px">
+                {% for word in user_words %}
+                    <div class="word-container category-container">
+                        <p class="word-name">{{ word.name }}</p>
+                        <div href="" class="delete-button play-button">
+                            <i class="bi bi-copy" style="color: white;"></i>
+                        </div>
+                        <div href="" class="delete-button" data-id="{{word.id|encrypt_id}}">
+                            <i class="bi bi-trash" style="color: white"></i>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+                <p style="margin-top: 1rem;">You don't have words yet</p>
+        {% endif %}
+        
+    </div>
+    <br>
+    <a href="{% url "users:logout" %}" class="btn btn-danger">Log out</a>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.delete-button').on('click', function(event) {
+            var delBtn = $(this)
+            var word_id = delBtn.data('id');
+
+            $.ajax({
+                url: '{% url "creating:delete_word" %}',
+                type: 'POST',
+                data: {
+                    'word_id': word_id,
+                    'type': 'word',
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    if (response.status === 'success') {
+                        delBtn.parent().remove();
+                        location.reload();
+                    } 
+                }
+            })
+        })
+    })
+</script>
+{% endblock %}
