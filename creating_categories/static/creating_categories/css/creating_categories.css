@@ -26,7 +26,7 @@
     margin: 0;
 }
 
-.delete-button {
+.word-button-style {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -38,9 +38,11 @@
     margin-left: 10px;
     cursor: pointer;
 }
-
 .play-button {
     background-color: #0d6efd;
+}
+.disabled-play {
+    cursor: default;
 }
 
 .category-container {

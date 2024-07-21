@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from creating_categories.templatetags.word_id_filters import decrypt_id
 from hangman.models import Word
 from django.template.loader import render_to_string
 from django.http import JsonResponse
@@ -9,22 +10,29 @@ import json
 
 
 # main Wordle - це сторінка на якій обираємо категорію для гри Wordle
-def index(request):
+def index(request, encrypted_id=None):
     
     if request.method == 'GET': # це коли ми нажали на кнопку за категорією 
         length = request.GET.get('length', None) 
         if length is not None:
             length = int(length)
-            words = Word.objects.filter(length=length)
+            words = Word.objects.filter(length=length, author=None)
             if words.exists():
                 real_word = random.choice(words)
-                update_html = render_to_string('wordle/wordle_partial.html', {'word': real_word.name})
+                update_html = render_to_string('wordle/wordle_partial.html', {'word': real_word.name.lower()})
                 request.session['real_word'] = real_word.name  # Зберігаємо real_word у сесії
-                return JsonResponse({'status': 'success', 'update_html': update_html, 'real_word': real_word.name})
+                return JsonResponse({'status': 'success', 'update_html': update_html, 'real_word': real_word.name.lower()})
+        
+        elif request.GET.get('encrypted_id', None):
+            real_word = Word.objects.get(id=decrypt_id(request.GET.get('encrypted_id')))
+            update_html = render_to_string('wordle/wordle_partial.html', {'word': real_word.name.lower()})
+            request.session['real_word'] = real_word.name  # Зберігаємо real_word у сесії
+            return JsonResponse({'status': 'success', 'update_html': update_html, 'real_word': real_word.name.lower()})
  
     
     context = { # це просто коли ми ще не вибрали категорію "просто сторінка"
         "title": "Wordle",
+        "encrypted_id": encrypted_id
     }
     return render(request, "wordle/wordle.html", context)
 
@@ -35,9 +43,9 @@ def check_word_view(request):
     use_letter = []
     if user_answer != "":
         user_answer = user_answer.lower() # якщо юзер еблан і написав слово з капсом (hElLo) - (hello)
-        real_word = real_word.lower() # якщо я еблан і написав слово з капсом (hElLo) - (hello)
+        # real_word = real_word.lower() # якщо я еблан і написав слово з капсом (hElLo) - (hello)
 
-        if check_word_exists(user_answer):
+        if check_word_exists(user_answer, real_word):
             if len(user_answer) == len(real_word): 
                 is_correct = user_answer == real_word
                 letter_status = ['absent'] * len(real_word)
@@ -72,7 +80,9 @@ def check_word_view(request):
     else:
         return JsonResponse({'status': 'short', 'is_correct': False})
 
-def check_word_exists(word):
+def check_word_exists(word, real_word):
+    if word == real_word:
+        return True
     check = enchant.Dict("en_US")
     return check.check(word)
 

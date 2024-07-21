@@ -34,5 +34,13 @@
 
 <script src="{% static "hangman/js/hangman.js" %}"></script>
     
-<script>var hints = {{hints}};</script>
+<script>
+    var hints = {{hints}};
+
+    {% if encrypted_id %}
+        var encryptedId = "{{encrypted_id}}";
+    {% else %}
+        var encryptedId = null;
+    {% endif %}
+</script>
 {% endblock %}

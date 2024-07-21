@@ -10,6 +10,8 @@
     <p>Hello, <b>{{user.get_short_name}}!</b></p>
     <p>Create categories for: <a href="{% url "creating:hangman" %}"><b>Hangman</b></a> / <a href="{% url "creating:wordle" %}">Wordle</a></p>
 
+    <div id="copy-alert" style="display: none; position: fixed; top: 10px; right: 10px; background: #4CAF50; color: white; padding: 10px; border-radius: 5px;">Link copied to clipboard! <br>Share it with your friends</div>
+
     {% if form.errors %}
         <ul style="padding-left: 0">
         {% for field, errors in form.errors.items %}
@@ -32,6 +34,8 @@
                 </button>
             {% endif %}
         </div>
+
+        {% comment %} POP-UP For creating new category {% endcomment %}
         <div class="modal fade" id="AddCategoryModal" tabindex="-1" role="dialog" aria-labelledby="AddCategoryModalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -55,6 +59,7 @@
             </div>
         </div>
 
+        {% comment %} POP-UP For creating new word {% endcomment %}
         <div class="modal fade" id="AddWordModal" tabindex="-1" role="dialog" aria-labelledby="AddWordModalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -93,10 +98,10 @@
                         &#x25BC;
                     </button>
                     <p class="word-name">{{ category.name }}</p>
-                    <div href="" class="delete-button play-button">
+                    <div class="word-button-style play-button{% if not category.word.all %} disabled-play{% endif %}">
                         <i class="bi bi-copy" style="color: white;"></i>
                     </div>
-                    <div href="" class="delete-button" data-id="{{category.id|encrypt_id}}" data-type="category">
+                    <div class="word-button-style delete-button" data-id="{{category.id|encrypt_id}}" data-type="category">
                         <i class="bi bi-trash" style="color: white"></i>
                     </div>
                 </div>
@@ -107,7 +112,7 @@
                                 <div>
                                     <p class="word-name">{{word.name}}</p>
                                 </div>
-                                <div href="" class="delete-button" data-id="{{word.id|encrypt_id}}" data-type="word">
+                                <div class="word-button-style delete-button" data-id="{{word.id|encrypt_id}}" data-type="word">
                                     <i class="bi bi-trash" style="color: white"></i>
                                 </div>
                             </div>
@@ -147,30 +152,71 @@
                         } else {
                             // This part is needed to hide collaps div and set classes for words-button
                             // If there is location.reload(); TO ONO HANYI NE NYGNO
-                            var collapseContainer = delBtn.closest('.collapse');
-                            var categoryContainer = collapseContainer.prev('.category-container');
-    
-                            if (collapseContainer.find('.word-container').length === 1) {
-    
-                                var wordsButton = categoryContainer.find('.words-button');
-    
-                                delBtn.closest('.word-container').remove();
-    
-                                collapseContainer.collapse('hide');
-    
-                                wordsButton.removeClass('rotated');
-                                wordsButton.addClass('disabled');
-                            } else {
-                                delBtn.closest('.word-container').remove();
-                            }
+
+                            // var collapseContainer = delBtn.closest('.collapse');
+                            // var categoryContainer = collapseContainer.prev('.category-container');
+
+                            // if (collapseContainer.find('.word-container').length === 1) {
+
+                            //     var wordsButton = categoryContainer.find('.words-button');
+
+                            delBtn.closest('.word-container').remove();
+
+                            //     collapseContainer.collapse('hide');
+
+                            //     wordsButton.removeClass('rotated');
+                            //     wordsButton.addClass('disabled');
+                            // } else {
+                            //     delBtn.closest('.word-container').remove();
+                            // }
                         }
                         location.reload();
                     }
                 }
             })
         });
-        $('.words-button').click(function () {
-            $(this).toggleClass('rotated')
+
+        // Єто шоб окно с словами и кнопка words-button двигались синхронно
+        // Додаємо обробник події click для кнопок words-button
+        $('.words-button').on('click', function () {
+            var target = $(this).data('target');
+            var $button = $(this);
+            $(target).collapse('toggle');
+
+            $button.toggleClass('rotated');
+        });
+
+        // Додаємо обробник події shown.bs.collapse
+        $('.collapse').on('shown.bs.collapse', function () {
+            $(this).prev('.category-container').find('.words-button').addClass('rotated');
+        });
+
+        // Додаємо обробник події hidden.bs.collapse
+        $('.collapse').on('hidden.bs.collapse', function () {
+            $(this).prev('.category-container').find('.words-button').removeClass('rotated');
+        });
+
+
+        $('.play-button').on('click', function () {
+            if (!$(this).hasClass('disabled-play')) {
+                var encryptedId = $(this).next('.delete-button').data('id');
+                var copyLink = "http://127.0.0.1:8000{% url 'hangman:custom' 'CUSTOM_ID_PLACEHOLDER' %}".replace('CUSTOM_ID_PLACEHOLDER', encryptedId);
+
+                var inp = document.createElement('input')
+                inp.value = copyLink
+                document.body.appendChild(inp)
+                inp.select()
+                document.execCommand('copy');
+                
+                document.body.removeChild(inp)
+
+                // Відображення повідомлення
+                var alertBox = $('#copy-alert');
+                alertBox.fadeIn(200);
+                setTimeout(function() {
+                    alertBox.fadeOut(200);
+                }, 3000);
+            }
         });
     });
 </script>

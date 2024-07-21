@@ -25,9 +25,13 @@
             backdrop: 'static',
             keyboard: false,
         });
+
+        if (encryptedId !== null) {
+            $('.wordle-next').hide()
+        };
+
         $(".wordle-next").click(function() {
             location.reload(); // Перезавантажити сторінку
         });
     });
-
 </script>

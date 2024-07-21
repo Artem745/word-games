@@ -27,10 +27,19 @@
     });
 
     $(document).on('click', '.hangman-next', function () {
+        var data = { 'hints': hints };
+        
+        if (encryptedId) {
+            data['category'] = 'Custom';
+            data['encrypted_id'] = encryptedId;
+        } else {
+            data['category'] = category;
+        }
+
         $.ajax({
             type: 'GET',
             url: '/hangman/',
-            data: { 'category': category, 'hints': hints },
+            data: data,
             success: function (response) {
                 if (response.status === 'success') {
                     $('.hangman').html(response.update_html);

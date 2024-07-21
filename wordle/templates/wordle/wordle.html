@@ -37,6 +37,12 @@
     });
 
     window.csrfToken = '{{ csrf_token }}';
+
+    {% if encrypted_id %}
+        var encryptedId = "{{encrypted_id}}";
+    {% else %}
+        var encryptedId = null;
+    {% endif %}
 </script>
 
 <script src="{% static 'wordle/js/wordle.js' %}"></script>

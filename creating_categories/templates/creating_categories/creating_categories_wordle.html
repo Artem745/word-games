@@ -11,6 +11,8 @@
     <p>Hello, <b>{{user.get_short_name}}!</b></p>
     <p>Create categories for: <a href="{% url "creating:hangman" %}">Hangman</a> / <a href="{% url "creating:wordle" %}"><b>Wordle</b></a></p>
 
+    <div id="copy-alert" style="display: none; position: fixed; top: 10px; right: 10px; background: #4CAF50; color: white; padding: 10px; border-radius: 5px;">Link copied to clipboard! <br>Share it with your friends</div>
+
     {% if form.errors %}
         <ul style="padding-left: 0">
         {% for field, errors in form.errors.items %}
@@ -53,10 +55,10 @@
                 {% for word in user_words %}
                     <div class="word-container category-container">
                         <p class="word-name">{{ word.name }}</p>
-                        <div href="" class="delete-button play-button">
+                        <div href="" class="word-button-style play-button">
                             <i class="bi bi-copy" style="color: white;"></i>
                         </div>
-                        <div href="" class="delete-button" data-id="{{word.id|encrypt_id}}">
+                        <div href="" class="word-button-style delete-button" data-id="{{word.id|encrypt_id}}">
                             <i class="bi bi-trash" style="color: white"></i>
                         </div>
                     </div>
@@ -92,7 +94,27 @@
                     } 
                 }
             })
-        })
+        });
+
+        $('.play-button').on('click', function () {
+            var encryptedId = $(this).next('.delete-button').data('id');
+            var copyLink = "http://127.0.0.1:8000{% url 'wordle:custom' 'CUSTOM_ID_PLACEHOLDER' %}".replace('CUSTOM_ID_PLACEHOLDER', encryptedId);
+
+            var inp = document.createElement('input')
+            inp.value = copyLink
+            document.body.appendChild(inp)
+            inp.select()
+            document.execCommand('copy');
+            
+            document.body.removeChild(inp)
+
+            // Відображення повідомлення
+            var alertBox = $('#copy-alert');
+            alertBox.fadeIn(200);
+            setTimeout(function() {
+                alertBox.fadeOut(200);
+            }, 3000);
+        });
     })
 </script>
 {% endblock %}

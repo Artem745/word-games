@@ -39,6 +39,33 @@ $(document).ready(function() {
         });
     });
 
+    function customStart(encryptedId) {
+        const length = $(this).data('length'); 
+        console.log("Button clicked, length: " + length); 
+
+        $.ajax({
+            url: "",  
+            type: "GET",
+            headers: { 'X-CSRFToken': csrftoken },
+            data: { "encrypted_id": encryptedId }, 
+            success: function(response) {
+                if (response.status === 'success') {
+                    $('.content').html(response.update_html);
+                    window.realWord = response.real_word; 
+                } else {
+                    console.error("Error: " + response.message); 
+                }
+            },
+            error: function(xhr, errmsg, err) {
+                console.error("AJAX error: " + xhr.status + ": " + xhr.responseText); 
+            }
+        })
+    };
+
+    if (encryptedId !== null) {
+        customStart(encryptedId)
+    };
+
     var user_trying = 0;
 
     $(document).on('click', '.submit-button', function() {
@@ -48,7 +75,7 @@ $(document).ready(function() {
         });
 
         $.ajax({
-            url: 'check_word/', 
+            url: '/wordle/check_word/', 
             type: 'POST',
             headers: { 'X-CSRFToken': csrftoken },
             data: { user_answer: user_answer.join(''), real_word: window.realWord },
@@ -73,7 +100,7 @@ $(document).ready(function() {
                     if (response.is_correct) {
                         console.log('Слово правильне!');
                         $.ajax({
-                            url: "wordle_status/",
+                            url: "/wordle/wordle_status/",
                             type: "GET",
                             data: { 'status': 'win' },
                             headers: { 'X-CSRFToken': csrftoken },
@@ -100,7 +127,7 @@ $(document).ready(function() {
 
                         if (user_trying >= 5) {
                             $.ajax({
-                                url: "wordle_status/",
+                                url: "/wordle/wordle_status/",
                                 type: "GET",
                                 data: { 'status': 'lose' },
                                 headers: { 'X-CSRFToken': csrftoken },
@@ -116,7 +143,7 @@ $(document).ready(function() {
                     }
                 } else if (response.status === 'short') {
                     $.ajax({
-                        url: "wordle_status/",
+                        url: "/wordle/wordle_status/",
                         type: "GET",
                         data: { 'status': 'short' },
                         headers: { 'X-CSRFToken': csrftoken },
@@ -132,7 +159,7 @@ $(document).ready(function() {
                     console.error("The word is too short");
                 } else if (response.status === "unexist") {
                     $.ajax({
-                        url: "wordle_status/",
+                        url: "/wordle/wordle_status/",
                         type: "GET",
                         data: { 'status': 'unexist' },
                         headers: { 'X-CSRFToken': csrftoken },
@@ -158,7 +185,7 @@ $(document).ready(function() {
 
     $(document).on('click', '.hint-button', function() {
         $.ajax({
-            url: "wordle_hint/",
+            url: "/wordle/wordle_hint/",
             type: "POST",
             headers: { 'X-CSRFToken': csrftoken },
             data: {

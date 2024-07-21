@@ -1,3 +1,4 @@
+import re
 from django import forms
 from hangman.models import Category, Word
 
@@ -12,6 +13,8 @@ class AddWordForm(forms.ModelForm):
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
+        if not re.match("^[a-zA-Z]+$", name):
+            raise forms.ValidationError("Name can only contain letters.")
         if Word.objects.filter(name=name, category=None, author=self.user).exists():
             raise forms.ValidationError('You already have a word with this name!')
         return name
@@ -51,6 +54,8 @@ class AddCategoryWordForm(forms.Form):
         category_name = cleaned_data.get('category')
 
         if name and category_name:
+            if not re.match("^[a-zA-Z]+$", name):
+                raise forms.ValidationError("Name can only contain letters.")
             category = Category.objects.get(name=category_name, author=self.user)
             if category and Word.objects.filter(name=name, category=category, author=self.user).exists():
                 raise forms.ValidationError('You already have a word with this name and category!')

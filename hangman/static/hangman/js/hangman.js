@@ -14,6 +14,24 @@ $(document).ready(function () {
 
     });
 
+    function customStart(encryptedId) {
+        $.ajax({
+            type: 'GET',
+            url: '/hangman/',
+            data: { "category": "Custom", "encrypted_id": encryptedId },
+            success: function (response) {
+                if (response.status === 'success') {
+                    $('.hangman').html(response.update_html);
+                    console.log('зашлооо');
+
+                }
+            }
+        });
+    };
+    if (encryptedId !== null) {
+        customStart(encryptedId);
+    };
+
     function compareLetters(clickedLetter) {
         isCorrect = false;
 
